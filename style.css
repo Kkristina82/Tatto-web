@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&family=Oswald:wght@500;700&display=swap');
+
+:root {
+    --bg: #000;
+    --neon-pink: #ff00ff;
+    --neon-red: #cf0000;
+}
+
+body { background: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; margin: 0; overflow-x: hidden; }
+
+.main-nav { 
+    position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; 
+    padding: 15px 40px; background: rgba(0,0,0,0.95); z-index: 1000; border-bottom: 1px solid #222;
+    box-sizing: border-box; align-items: center;
+}
+.logo { font-family: 'Oswald', sans-serif; letter-spacing: 3px; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+.logo i { color: var(--neon-red); }
+.main-nav ul { display: flex; list-style: none; gap: 5px; margin: 0; padding: 0; }
+.main-nav li { 
+    font-size: 0.65rem; cursor: pointer; text-transform: uppercase; padding: 8px 12px; 
+    border: 1px solid transparent; transition: 0.3s; border-radius: 4px; letter-spacing: 1px;
+}
+.main-nav li:hover { border-color: var(--neon-pink); color: var(--neon-pink); box-shadow: 0 0 10px var(--neon-pink); }
+
+.tab-content { display: none; padding: 120px 20px; min-height: 100vh; }
+.tab-content.active { display: block; }
+
+.hero { height: 30vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.neon-title {
+    font-family: 'Oswald', sans-serif; font-size: clamp(2rem, 8vw, 5rem);
+    letter-spacing: 8px; color: #fff; -webkit-text-stroke: 1.5px var(--neon-red);
+    text-shadow: 0 0 20px var(--neon-pink);
+}
+
+.about-section { text-align: center; margin-bottom: 60px; }
+.promo-img { width: 100%; max-width: 500px; border: 1px solid #222; transition: 0.5s; }
+.promo-img:hover { border-color: var(--neon-pink); box-shadow: 0 0 20px var(--neon-pink); }
+.scroll-indicator { margin-top: 20px; color: #444; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
+
+.reveal-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; max-width: 1200px; margin: 0 auto; }
+.reveal-item { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+.reveal-item.visible { opacity: 1; transform: translateY(0); }
+.reveal-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; filter: grayscale(1); border: 1px solid #222; transition: 0.5s; }
+.reveal-item:hover img { filter: grayscale(0); border-color: var(--neon-pink); }
+
+.more-works-container { text-align: center; padding: 60px 0; }
+.btn-more {
+    background: transparent; border: 2px solid var(--neon-pink); color: #fff; 
+    padding: 18px 35px; font-family: 'Oswald', sans-serif; font-size: 1.1rem; 
+    letter-spacing: 2px; text-decoration: none; transition: 0.4s; box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+}
+.btn-more:hover { background: var(--neon-pink); color: #000; box-shadow: 0 0 30px var(--neon-pink); transform: scale(1.05); }
+
+.info-posters img, .course-card img { width: 100%; border: 1px solid #222; cursor: zoom-in; transition: all 0.4s ease; }
+.info-posters img:hover, .course-card img:hover { border-color: var(--neon-pink); box-shadow: 0 0 20px var(--neon-pink); transform: scale(1.02); }
+
+.section-title { text-align: center; font-family: 'Oswald', sans-serif; font-size: 2.5rem; letter-spacing: 5px; margin-bottom: 50px; }
+.info-posters { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto; }
+
+.course-card { display: flex; flex-direction: column; gap: 15px; }
+.btn-course { 
+    background: transparent; border: 1px solid var(--neon-pink); color: var(--neon-pink); 
+    padding: 12px; font-family: 'Oswald', sans-serif; cursor: pointer; transition: 0.3s; letter-spacing: 1px;
+}
+.btn-course:hover { background: var(--neon-pink); color: #000; box-shadow: 0 0 15px var(--neon-pink); }
+
+.care-guide-v2 { max-width: 700px; margin: 0 auto; background: #050505; padding: 40px; border: 1px solid #1a1a1a; text-align: center; line-height: 1.6; }
+.guide-main-title { color: var(--neon-pink); font-family: 'Oswald', sans-serif; margin-bottom: 40px; }
+.care-block h4 { color: var(--neon-red); font-size: 1.2rem; margin-bottom: 10px; text-transform: uppercase; }
+.care-block p { color: #ccc; margin: 5px 0; }
+.care-divider { color: #222; margin: 25px 0; font-size: 1.2rem; }
+.final-rule { margin-top: 40px; padding: 25px; border: 1px solid var(--neon-pink); background: rgba(255, 0, 255, 0.02); }
+
+.contact-container { max-width: 400px; margin: 0 auto; padding: 20px; }
+.contact-grid { display: flex; flex-direction: column; gap: 15px; }
+.btn-contact {
+    display: flex; align-items: center; justify-content: center; gap: 12px; padding: 18px; 
+    border: 1px solid var(--neon-pink); color: #fff; text-decoration: none; 
+    font-family: 'Oswald', sans-serif; font-size: 1.1rem; letter-spacing: 2px; transition: 0.4s; background: rgba(255, 0, 255, 0.05);
+}
+.btn-contact:hover { background: var(--neon-pink); color: #000; box-shadow: 0 0 25px var(--neon-pink); transform: translateY(-3px); }
+.btn-phone { border-color: #fff; background: transparent; margin-top: 10px; }
+.btn-phone:hover { background: #fff; box-shadow: 0 0 25px #fff; color: #000; }
+
+.map-button-wrapper { text-align: center; margin-top: 10px; }
+.btn-maps { border-color: var(--neon-red); background: rgba(207, 0, 0, 0.05); }
+.btn-maps:hover { background: var(--neon-red); box-shadow: 0 0 25px var(--neon-red); color: #fff; }
+.map-hint { color: #888; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; font-family: 'Montserrat', sans-serif; }
+
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; cursor: zoom-out; }
+.modal-content { max-width: 90%; max-height: 90%; border: 1px solid var(--neon-pink); }
+.close-modal { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; cursor: pointer; }
+
+@media (max-width: 600px) {
+    .main-nav { padding: 10px; flex-direction: column; }
+    .main-nav ul { gap: 2px; }
+    .main-nav li { font-size: 0.55rem; padding: 6px 8px; }
+}

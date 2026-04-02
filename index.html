@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOR.A TATTOO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBU7yr7SRj8JEvDHmY4w7SSXIX8zjgocCg",
+    authDomain: "goratattokrop.firebaseapp.com",
+    projectId: "goratattokrop",
+    storageBucket: "goratattokrop.firebasestorage.app",
+    messagingSenderId: "921888337663",
+    appId: "1:921888337663:web:06a6fa71a114c35a4326ca",
+    measurementId: "G-F4F8ENB5D7"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+
+    <nav class="main-nav">
+        <div class="logo" onclick="showTab('home')"><i class="fas fa-pen-nib"></i> GOR.A</div>
+        <ul>
+            <li onclick="showTab('home')">ГОЛОВНА</li>
+            <li onclick="showTab('aftercare')">ІНФОРМАЦІЯ</li>
+            <li onclick="showTab('care')">ДОГЛЯД</li>
+            <li onclick="showTab('contact')">КОНТАКТИ</li>
+        </ul>
+    </nav>
+
+    <div id="home" class="tab-content active">
+        <section class="hero">
+            <h1 class="neon-title"><i class="fas fa-pen-nib"></i> GOR.A TATTOO</h1>
+            <p>Гордова Антоніна • Тату Кропивницький</p>
+        </section>
+
+        <section class="about-section">
+            <div class="about-container">
+                <img src="img/promo.jpg" alt="Gor.A Tattoo" class="promo-img">
+            </div>
+            <div class="scroll-indicator">гортай вниз, щоб побачити роботи ↓</div>
+        </section>
+
+        <div id="photo-grid" class="reveal-gallery"></div>
+
+        <div class="more-works-container">
+            <a href="https://www.instagram.com/gor.a_tatto_krop/" class="btn btn-more" target="_blank">
+                БІЛЬШЕ РОБІТ В INSTAGRAM <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+    </div>
+
+    <div id="aftercare" class="tab-content">
+        <h2 class="section-title">Корисна інформація</h2>
+        <div class="info-posters">
+            <img src="img/info/price.jpg" alt="Прайс-лист">
+            <img src="img/info/rules.jpg" alt="Пам'ятка">
+            <img src="img/info/prepayment.jpg" alt="Передоплата">
+            <img src="img/info/certificate.jpg" alt="Сертифікат">
+            
+            <div class="course-card">
+                <img src="img/info/course.jpg" alt="Навчання тату">
+                <button class="btn-course" onclick="showTab('contact')">ЗАПИСАТИСЯ НА КУРС</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="care" class="tab-content">
+        <h2 class="section-title">Догляд</h2>
+        <div class="care-guide-v2">
+            <h3 class="guide-main-title">🖤 ПАМ’ЯТКА ПО ДОГЛЯДУ ЗА СВІЖИМ ТАТУ</h3>
+            <div class="care-block">
+                <h4>1️⃣ Перші години</h4>
+                <p>Тату закрите. Через 3–5 годин знімаємо захист (як казав майстер).</p>
+                <p>Промиваємо теплою водою + дитячим милом 🫧<br>Без фанатизму. Ми не відтираємо фарбу зі стін.</p>
+            </div>
+            <div class="care-divider">⸻</div>
+            <div class="care-block">
+                <h4>2️⃣ Скільки разів мити?</h4>
+                <p>🔹 Перші 3–5 днів — 3 рази на день.<br>(ранок / день / вечір)</p>
+                <p>Якщо спітніли або забруднили — можна додатково промити.</p>
+                <p><strong>Головне правило:</strong><br>частіше — можна, терти — не можна 😌</p>
+            </div>
+            <div class="care-divider">⸻</div>
+            <div class="care-block">
+                <h4>3️⃣ Як сушити</h4>
+                <p>Промокнути одноразовою серветкою.<br>Не рушником. Не футболкою. Не «та воно саме висохне».</p>
+            </div>
+            <div class="care-divider">⸻</div>
+            <div class="care-block">
+                <h4>4️⃣ Крем</h4>
+                <p>Наносимо тонкий шар загоювального засобу.<br>Тонкий — це коли шкіра зволожена, а не як пампушка в глазурі.</p>
+            </div>
+            <div class="care-divider">⸻</div>
+            <div class="care-block">
+                <h4>5️⃣ Пелюшки — наші кращі подруги 🖤</h4>
+                <p>Я рекомендую одноразові пелюшки:</p>
+                <p>✔️ Захищають одяг<br>✔️ Дають шкірі дихати<br>✔️ Зручно спати<br>✔️ Не парять, якщо міняти вчасно</p>
+            </div>
+            <div class="care-divider">⸻</div>
+            <div class="care-block">
+                <h4>6️⃣ Буде свербіти</h4>
+                <p>🚫 Не чухати<br>🚫 Не здиради кірочки<br>🚫 Не перевіряти «а що там під нею»</p>
+            </div>
+            <div class="care-divider">⸻</div>
+            <div class="care-block">
+                <h4>7️⃣ Тимчасові табу (2–3 тижні)</h4>
+                <p>❌ Ванна ❌ Баня ❌ Басейн ❌ Море ❌ Солярій ❌ Засмага</p>
+            </div>
+            <div class="final-rule">
+                <p>🖤 <strong>Головне правило:</strong></p>
+                <p>Якщо щось сильно червоне або виглядає підозріло — пишемо майстру!</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="contact" class="tab-content">
+        <h2 class="section-title">КОНТАКТИ</h2>
+        <div class="contact-container">
+            <div class="contact-grid">
+                <a href="https://www.instagram.com/gor.a_tatto_krop/" class="btn btn-contact" target="_blank"><i class="fab fa-instagram"></i> INSTAGRAM</a>
+                <a href="https://www.tiktok.com/@gora.tattoo_krop" class="btn btn-contact" target="_blank"><i class="fab fa-tiktok"></i> TIK TOK</a>
+                <a href="https://www.facebook.com/share/17TXZyaR2o/" class="btn btn-contact" target="_blank"><i class="fab fa-facebook-f"></i> FACEBOOK</a>
+                <a href="tel:+380500804864" class="btn btn-contact btn-phone"><i class="fas fa-phone-alt"></i> ЗАТЕЛЕФОНУВАТИ</a>
+                <div class="map-button-wrapper">
+                    <a href="https://maps.app.goo.gl/kh84goEFJtkEdg9s8" class="btn btn-contact btn-maps" target="_blank"><i class="fas fa-map-marker-alt"></i> ГУГЛ КАРТИ</a>
+                    <p class="map-hint">Натисни щоб дізнатися</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="image-modal" class="modal">
+        <span class="close-modal">×</span>
+        <img class="modal-content" id="full-image">
+    </div>
+
+    <script src="script.js"></script>
+    <!-- Vercel Web Analytics -->
+</body>
+</html>
