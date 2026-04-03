@@ -5,37 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GOR.A TATTOO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <button class="floating-btn" onclick="showTab('booking')">
+    <i class="fas fa-calendar-alt"></i> ЗАПИСАТИСЬ
+</button>
     <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-analytics.js";
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBU7yr7SRj8JEvDHmY4w7SSXIX8zjgocCg",
-    authDomain: "goratattokrop.firebaseapp.com",
-    projectId: "goratattokrop",
-    storageBucket: "goratattokrop.firebasestorage.app",
-    messagingSenderId: "921888337663",
-    appId: "1:921888337663:web:06a6fa71a114c35a4326ca",
-    measurementId: "G-F4F8ENB5D7"
-  };
+      const firebaseConfig = {
+        apiKey: "AIzaSyBU7yr7SRj8JEvDHmY4w7SSXIX8zjgocCg",
+        authDomain: "goratattokrop.firebaseapp.com",
+        projectId: "goratattokrop",
+        storageBucket: "goratattokrop.firebasestorage.app",
+        messagingSenderId: "921888337663",
+        appId: "1:921888337663:web:06a6fa71a114c35a4326ca",
+        measurementId: "G-F4F8ENB5D7"
+      };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
 
     <nav class="main-nav">
         <div class="logo" onclick="showTab('home')"><i class="fas fa-pen-nib"></i> GOR.A</div>
         <ul>
             <li onclick="showTab('home')">ГОЛОВНА</li>
+            <li onclick="showTab('booking')">ЗАПИС</li> 
             <li onclick="showTab('aftercare')">ІНФОРМАЦІЯ</li>
             <li onclick="showTab('care')">ДОГЛЯД</li>
             <li onclick="showTab('contact')">КОНТАКТИ</li>
@@ -61,6 +62,27 @@
             <a href="https://www.instagram.com/gor.a_tatto_krop/" class="btn btn-more" target="_blank">
                 БІЛЬШЕ РОБІТ В INSTAGRAM <i class="fab fa-instagram"></i>
             </a>
+        </div>
+    </div>
+
+    <div id="booking" class="tab-content">
+        <h2 class="section-title">Запис на сеанс</h2>
+        <div class="care-guide-v2" style="max-width: 500px; margin: 0 auto;">
+            <div id="booking-form-container">
+                <div class="care-block">
+                    <h4 style="color: var(--neon-pink);">Оберіть дату</h4>
+                    <input type="date" id="book-date" class="booking-input">
+                    
+                    <h4 style="color: var(--neon-pink);">Ваше ім'я</h4>
+                    <input type="text" id="book-name" placeholder="Як до вас звертатися?" class="booking-input">
+                    
+                    <h4 style="color: var(--neon-pink);">Телефон / Instagram</h4>
+                    <input type="text" id="book-contact" placeholder="@username або номер" class="booking-input">
+                    
+                    <button id="submit-booking" class="btn-course" style="width: 100%; font-size: 1.2rem; margin-top: 20px;">ЗАБРОНЮВАТИ</button>
+                </div>
+            </div>
+            <div id="booking-status" style="margin-top: 20px; color: var(--neon-pink); display: none; font-weight: bold; text-align: center;"></div>
         </div>
     </div>
 
@@ -92,7 +114,7 @@
             <div class="care-block">
                 <h4>2️⃣ Скільки разів мити?</h4>
                 <p>🔹 Перші 3–5 днів — 3 рази на день.<br>(ранок / день / вечір)</p>
-                <p>Якщо спітніли або забруднили — можна додатково промити.</p>
+                <p>Якщо спітніли або забруднили — можна додатково промивавати.</p>
                 <p><strong>Головне правило:</strong><br>частіше — можна, терти — не можна 😌</p>
             </div>
             <div class="care-divider">⸻</div>
@@ -149,7 +171,27 @@
         <img class="modal-content" id="full-image">
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    
     <script src="script.js"></script>
-    <!-- Vercel Web Analytics -->
+    <div id="admin-panel" class="tab-content" style="display: none; padding-top: 100px;">
+    <h2 class="section-title" style="color: var(--neon-red);">CONTROL PANEL</h2>
+    <div class="care-guide-v2" style="max-width: 600px; margin: 0 auto; background: rgba(10,10,10,0.9); padding: 20px; border: 1px solid #222;">
+        
+        <div id="admin-interface">
+            <h4 style="color: var(--neon-pink); border-bottom: 1px solid #222; padding-bottom: 10px;">СПИСОК ЗАПИСІВ</h4>
+            <div id="admin-bookings-list" style="text-align: left; margin-bottom: 30px; max-height: 400px; overflow-y: auto;">
+                </div>
+            
+            <h4 style="color: var(--neon-red); border-bottom: 1px solid #222; padding-bottom: 10px;">КЕРУВАННЯ ГРАФІКОМ</h4>
+            <p style="font-size: 0.8rem; color: #888;">Оберіть дату, щоб зробити її вихідним:</p>
+            <input type="date" id="admin-day-off" class="booking-input" style="margin-bottom: 10px;">
+            <button onclick="setDayOff()" class="btn-course" style="width: 100%; border-color: var(--neon-red); color: var(--neon-red);">ЗАБЛОКУВАТИ ДАТУ</button>
+            
+            <button onclick="showTab('home')" class="btn-contact" style="margin-top: 30px; width: 100%; opacity: 0.5;">ВИЙТИ З АДМІНКИ</button>
+        </div>
+    </div>
+</div>
 </body>
 </html>
