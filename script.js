@@ -308,3 +308,43 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('scroll', checkReveal);
+// Знаходимо елементи модалки
+const modal = document.getElementById('image-modal');
+const modalImg = document.getElementById('full-image');
+const closeBtn = document.querySelector('.close-modal');
+
+// Закриття при кліку на хрестик
+if (closeBtn) {
+    closeBtn.onclick = function() { 
+        modal.style.display = "none";
+    }
+}
+
+// Закриття при кліку на будь-яку область фону
+if (modal) {
+    modal.onclick = function(event) {
+        if (event.target !== modalImg) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+// Додамо закриття клавішею Esc для зручності
+document.addEventListener('keydown', (e) => {
+    if (e.key === "Escape" && modal) {
+        modal.style.display = "none";
+    }
+});
+// Функція для відкриття постерів у модальному вікні
+window.openFullPoster = function(imageSrc) {
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('full-image');
+    
+    if (modal && modalImg) {
+        modal.style.display = "flex";
+        modalImg.src = imageSrc;
+        // Переконуємося, що модалка має правильний стиль для великих фото
+        modalImg.style.border = "2px solid var(--neon-pink)";
+        modalImg.style.boxShadow = "0 0 30px rgba(255, 0, 255, 0.3)";
+    }
+};
