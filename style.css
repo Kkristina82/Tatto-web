@@ -423,3 +423,20 @@ body {
 .flatpickr-day.day-off-style:hover {
     background: inherit !important;
 }
+/* Адаптація календаря під мобільні */
+.flatpickr-calendar {
+    width: 280px !important; /* Фіксована ширина для малих екранів */
+}
+
+@media (max-width: 350px) {
+    .flatpickr-calendar {
+        left: 0 !important;
+        right: 0 !important;
+        margin: 0 auto;
+    }
+}
+
+/* Контейнер дати */
+#book-date-container {
+    width: 100%;
+}
