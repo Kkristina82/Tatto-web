@@ -17,7 +17,11 @@ const database = firebase.database();
 const totalPhotos = 20; 
 let fp; // Екземпляр календаря
 
-// Завантаження галереї
+// Налаштування Telegram
+const TELEGRAM_BOT_TOKEN = '8758214194:AAFI7drpn1wGVEpEaB9XrNyBoZHg1M7GApE'; 
+const TELEGRAM_CHAT_ID = '7443699603'; 
+
+// --- ГАЛЕРЕЯ ---
 function loadPhotos() {
     const grid = document.getElementById('photo-grid');
     if (!grid) return;
@@ -43,7 +47,28 @@ function loadPhotos() {
     }
 }
 
-// Функція для форматування дати БЕЗ зсуву часових поясів
+// --- НАВІГАЦІЯ ---
+window.showTab = function(tabId) {
+    const tabs = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.id === 'admin-panel') tab.style.display = 'none';
+    });
+    
+    const activeTab = document.getElementById(tabId);
+    if (activeTab) {
+        activeTab.classList.add('active');
+        if (tabId === 'admin-panel') activeTab.style.display = 'block';
+    }
+
+    if (tabId === 'booking') renderCalendar();
+    if (tabId === 'admin-panel') loadAdminData();
+    
+    window.scrollTo(0, 0);
+    setTimeout(checkReveal, 100);
+}
+
+// --- КАЛЕНДАР ---
 function formatDateLocal(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -51,41 +76,44 @@ function formatDateLocal(date) {
     return `${year}-${month}-${day}`;
 }
 
-// Перемикання табів та Календар
-function showTab(tabId) {
-    const tabs = document.querySelectorAll('.tab-content');
-    tabs.forEach(tab => tab.classList.remove('active'));
-    
-    const activeTab = document.getElementById(tabId);
-    if (activeTab) activeTab.classList.add('active');
-
-    if (tabId === 'booking') {
-        renderCalendar();
-    }
-    window.scrollTo(0, 0);
-    setTimeout(checkReveal, 100);
-}
-
-// Окрема функція для малювання календаря
 function renderCalendar() {
     database.ref('bookings').once('value').then((snapshot) => {
-        const bookedDates = snapshot.val() ? Object.keys(snapshot.val()) : [];
+        const allData = snapshot.val() || {};
         
+        // Масив для дат-вихідних
+        const dayOffDates = Object.keys(allData).filter(date => {
+            return allData[date].clientName && allData[date].clientName.includes("ВИХІДНИЙ");
+        });
+
+        // Масив для підтверджених записів (зайнято)
+        const confirmedDates = Object.keys(allData).filter(date => {
+            return allData[date].status === "confirmed" && !dayOffDates.includes(date);
+        });
+
+        const allBookedDates = Object.keys(allData);
+
         if (fp) fp.destroy();
 
         fp = flatpickr("#book-date", {
-            minDate: "2026-04-03",
-            inline: false, 
-            static: true,
+            minDate: "today",
+            static: true, 
+            appendTo: document.getElementById('book-date-container'), 
             dateFormat: "Y-m-d",
-            "locale": { firstDayOfWeek: 1 },
-            disable: bookedDates, 
+            "locale": "uk",
+            disable: [...dayOffDates, ...confirmedDates], // Блокуємо і ті, і ті
             onDayCreate: function(dObj, dStr, fp, dayElem) {
-                // Використовуємо локальне форматування для правильної підсвітки
                 if (dayElem.dateObj) {
                     const dateStr = formatDateLocal(dayElem.dateObj);
-                    if (bookedDates.includes(dateStr)) {
-                        dayElem.classList.add("booked-day");
+                    
+                    if (dayOffDates.includes(dateStr)) {
+                        // Додаємо клас для вихідних
+                        dayElem.classList.add("day-off-style");
+                    } else if (confirmedDates.includes(dateStr)) {
+                        // Додаємо клас для зайнятих днів
+                        dayElem.classList.add("booked-day-red");
+                    } else if (allBookedDates.includes(dateStr)) {
+                        // Пунктир для заявок, що очікують (pending)
+                        dayElem.style.borderBottom = "2px dashed var(--neon-pink)";
                     }
                 }
             }
@@ -93,27 +121,26 @@ function renderCalendar() {
     });
 }
 
-// Анімація появи
-function checkReveal() {
-    const items = document.querySelectorAll('.reveal-item');
-    items.forEach(item => {
-        const rect = item.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.9) {
-            item.classList.add('visible');
-        }
-    });
-}
+// --- ОБРОБКА ФОРМИ ЗАПИСУ ---
+document.addEventListener('change', function(e) {
+    if (e.target && e.target.id === 'book-file') {
+        const fileName = e.target.files[0] ? e.target.files[0].name : "ОБРАТИ ФОТО";
+        document.getElementById('file-label').innerText = fileName;
+    }
+});
 
-// ЛОГІКА БРОНЮВАННЯ
 document.addEventListener('click', function(e) {
     if (e.target && e.target.id === 'submit-booking') {
         const date = document.getElementById('book-date').value;
         const name = document.getElementById('book-name').value;
+        const idea = document.getElementById('book-idea').value.trim();
         const contact = document.getElementById('book-contact').value.trim();
+        const fileInput = document.getElementById('book-file');
         const status = document.getElementById('booking-status');
 
-        if (!date || !name || !contact) {
-            alert("Будь ласка, заповніть всі поля 🖤");
+        // Валідація
+        if (!date || !name || !contact || !idea) {
+            alert("Заповніть всі поля 🖤");
             return;
         }
 
@@ -121,130 +148,163 @@ document.addEventListener('click', function(e) {
         const phoneRegex = /^(\+38)?0\d{9}$/;
 
         if (!instaRegex.test(contact) && !phoneRegex.test(contact)) {
-            alert("Введіть Instagram (з @) або укр. номер телефону 🖤");
+            alert("Введіть Instagram (з @) або номер телефону 🖤");
             return;
         }
 
+        status.style.display = "block";
+        status.innerText = "Відправка... зачекайте 🖤";
+
+        // Перевірка на зайнятість (подвійна)
         database.ref('bookings/' + date).once('value').then((snapshot) => {
-            if (snapshot.exists()) {
-                alert("Цей день вже зайнятий, оберіть інший 🖤");
+            if (snapshot.exists() && (snapshot.val().status === 'confirmed' || snapshot.val().clientName.includes('ВИХІДНИЙ'))) {
+                alert("Ця дата вже остаточно зайнята 🖤");
                 renderCalendar();
-            } else {
-                database.ref('bookings/' + date).set({
-                    clientName: name,
-                    clientContact: contact,
-                    timestamp: Date.now()
-                }).then(() => {
-                    status.style.display = "block";
-                    status.innerText = "Успішно! Чекаю на вас 🖤";
-                    document.getElementById('booking-form-container').style.opacity = "0.3";
-                    document.getElementById('booking-form-container').style.pointerEvents = "none";
-                    renderCalendar(); // Оновлюємо календар відразу
-                });
+                return;
             }
+
+            // Запис в базу
+            database.ref('bookings/' + date).set({
+                clientName: name,
+                clientContact: contact,
+                idea: idea,
+                status: "pending",
+                timestamp: Date.now()
+            }).then(() => {
+                const message = `🔔 НОВА ЗАЯВКА\n📅 Дата: ${date}\n👤 Клієнт: ${name}\n📝 Ідея: ${idea}\n📱 Контакт: ${contact}`;
+                
+                if (fileInput.files && fileInput.files[0]) {
+                    const formData = new FormData();
+                    formData.append('chat_id', TELEGRAM_CHAT_ID);
+                    formData.append('photo', fileInput.files[0]);
+                    formData.append('caption', message);
+                    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, { method: 'POST', body: formData }).then(finalize);
+                } else {
+                    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(message)}`;
+                    fetch(url).then(finalize);
+                }
+            });
         });
+
+        function finalize() {
+            status.innerHTML = "Успішно! Я напишу вам 🖤";
+            document.getElementById('booking-form-container').style.opacity = "0.3";
+            document.getElementById('booking-form-container').style.pointerEvents = "none";
+            renderCalendar();
+        }
     }
 });
 
-// Адмін-панель
-window.adminLogin = function() {
-    const pass = prompt("Пароль:");
-    if (pass === "0000") {
-        database.ref('bookings').on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (!data) return alert("Записів немає");
-            let list = "ЗАПИСИ:\n";
-            for (let d in data) list += `${d}: ${data[d].clientName} (${data[d].clientContact})\n`;
-            alert(list);
-        });
-    }
-};
-
-// Старт
-document.addEventListener('DOMContentLoaded', () => {
-    loadPhotos();
-    checkReveal();
-    const modal = document.getElementById('image-modal');
-    if (modal) modal.onclick = () => modal.style.display = "none";
-});
-
-window.addEventListener('scroll', checkReveal);
-// Функція перевірки хешу в посиланні (наприклад, site.com/#admin)
-function checkAdminHash() {
-    if (window.location.hash === '#admin') {
-        adminAuth();
-    }
-}
-
-// Авторизація
+// --- АДМІН-ПАНЕЛЬ ---
 window.adminAuth = function() {
-    const pass = prompt("Вхід в систему керування. Пароль:");
-    if (pass === "0000") {
-        // Ховаємо всі таби і показуємо адмінку
-        const tabs = document.querySelectorAll('.tab-content');
-        tabs.forEach(tab => tab.classList.remove('active'));
-        
-        const adminTab = document.getElementById('admin-panel');
-        adminTab.style.display = 'block';
-        adminTab.classList.add('active');
-        
-        loadAdminData(); // Завантажуємо дані
+    const pass = prompt("Пароль:");
+    if (pass === "020307") {
+        showTab('admin-panel');
     } else {
-        alert("Доступ обмежено.");
-        window.location.hash = ''; // Очищуємо хеш
+        alert("Відмовлено.");
     }
 };
 
-// Завантаження даних для адміна
+// Оновлена функція завантаження з кнопками ПІДТВЕРДИТИ/ВІДХИЛИТИ
 function loadAdminData() {
     const listCont = document.getElementById('admin-bookings-list');
     database.ref('bookings').on('value', (snapshot) => {
         const data = snapshot.val();
         listCont.innerHTML = "";
-        if (!data) {
-            listCont.innerHTML = "<p>Записів поки немає</p>";
-            return;
-        }
-        for (let date in data) {
+        if (!data) return listCont.innerHTML = "<p style='text-align:center;'>Записів немає</p>";
+
+        const sortedDates = Object.keys(data).sort().reverse();
+
+        sortedDates.forEach(date => {
+            const booking = data[date];
+            const status = booking.status || "pending";
+            const isConfirmed = status === "confirmed";
+            const isRejected = status === "rejected";
+            const isDayOff = booking.clientName && booking.clientName.includes("ВИХІДНИЙ");
+
             const item = document.createElement('div');
-            item.style.cssText = "padding: 15px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center;";
-            
-            // Перевіряємо чи це клієнт чи вихідний
-            const isDayOff = data[date].clientName.includes("ВИХІДНИЙ");
+            // Колір фону залежно від статусу
+            let bgColor = "rgba(255, 204, 0, 0.05)"; // Очікує (жовтий)
+            if (isConfirmed) bgColor = "rgba(0, 255, 0, 0.05)"; // Підтверджено (зелений)
+            if (isRejected) bgColor = "rgba(255, 0, 0, 0.05)"; // Відхилено (червоний)
+
+            item.style.cssText = `padding: 15px; border-bottom: 1px solid #222; margin-bottom: 10px; background: ${bgColor};`;
             
             item.innerHTML = `
-                <div>
-                    <span style="color: ${isDayOff ? 'var(--neon-red)' : 'var(--neon-pink)'}; font-weight: bold;">${date}</span><br>
-                    <small>${data[date].clientName} ${isDayOff ? '' : '| ' + data[date].clientContact}</small>
+                <div style="margin-bottom: 10px;">
+                    <strong style="color: ${isConfirmed ? '#28a745' : (isRejected ? '#ff4444' : '#ffcc00')}">
+                        ${date} [${status.toUpperCase()}]
+                    </strong><br>
+                    <small>${booking.clientName} (${booking.clientContact})</small>
+                    <p style="font-size: 0.8rem; color: #aaa; margin: 5px 0;">${booking.idea || ''}</p>
                 </div>
-                <button onclick="deleteBooking('${date}')" style="background: none; border: 1px solid #444; color: #888; padding: 5px 10px; cursor: pointer; font-size: 0.7rem;">ВИДАЛИТИ</button>
+                <div style="display: flex; gap: 10px;">
+                    ${(!isConfirmed && !isDayOff) ? `<button onclick="confirmBooking('${date}')" style="background: #28a745; color: white; border: none; padding: 8px 12px; cursor: pointer; font-weight: bold;">ПІДТВЕРДИТИ</button>` : ''}
+                    ${(!isRejected && !isDayOff) ? `<button onclick="rejectBooking('${date}')" style="background: none; border: 1px solid #ff4444; color: #ff4444; padding: 8px 12px; cursor: pointer;">ВІДХИЛИТИ</button>` : ''}
+                    <button onclick="deleteBooking('${date}')" style="background: none; border: 1px solid #444; color: #888; padding: 8px 12px; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                </div>
             `;
             listCont.appendChild(item);
-        }
+        });
     });
 }
 
-// Встановити вихідний
+// Підтвердження (статус confirmed блокує дату в календарі)
+window.confirmBooking = function(date) {
+    if(confirm(`Підтвердити запис на ${date}?`)) {
+        database.ref('bookings/' + date).update({ 
+            status: "confirmed" 
+        }).then(() => {
+            renderCalendar(); // Оновлюємо календар відразу
+        });
+    }
+};
+
+// Відхилення (статус rejected звільняє дату в календарі)
+window.rejectBooking = function(date) {
+    if(confirm(`Відхилити заявку на ${date}? Дата стане доступною для інших.`)) {
+        database.ref('bookings/' + date).update({ 
+            status: "rejected" 
+        }).then(() => {
+            renderCalendar();
+        });
+    }
+};
+
+// Видалення
+window.deleteBooking = function(date) {
+    if (confirm(`Видалити запис ${date} з бази назавжди?`)) {
+        database.ref('bookings/' + date).remove().then(() => {
+            renderCalendar();
+        });
+    }
+};
+
 window.setDayOff = function() {
     const date = document.getElementById('admin-day-off').value;
     if (!date) return alert("Оберіть дату");
     database.ref('bookings/' + date).set({
-        clientName: "⛔ ВИХІДНИЙ (Блок)",
+        clientName: "⛔ ВИХІДНИЙ",
         clientContact: "system",
+        status: "confirmed",
         timestamp: Date.now()
-    }).then(() => alert("День заблоковано 🖤"));
+    }).then(() => renderCalendar());
 };
 
-// Видалити запис
-window.deleteBooking = function(date) {
-    if (confirm(`Звільнити дату ${date}?`)) {
-        database.ref('bookings/' + date).remove().then(() => renderCalendar());
-    }
-};
+// --- СТАРТ ТА АНІМАЦІЇ ---
+function checkReveal() {
+    document.querySelectorAll('.reveal-item').forEach(item => {
+        const rect = item.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.9) item.classList.add('visible');
+    });
+}
 
-// Додай перевірку хешу при завантаженні сторінки
 document.addEventListener('DOMContentLoaded', () => {
-    checkAdminHash();
-    // Також слідкуємо за зміною хешу без перезавантаження
-    window.addEventListener('hashchange', checkAdminHash);
+    loadPhotos();
+    if (window.location.hash === '#admin') adminAuth();
+    window.addEventListener('hashchange', () => { if (window.location.hash === '#admin') adminAuth(); });
+    const modal = document.getElementById('image-modal');
+    if (modal) modal.onclick = () => modal.style.display = "none";
 });
+
+window.addEventListener('scroll', checkReveal);
