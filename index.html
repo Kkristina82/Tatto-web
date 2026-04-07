@@ -6,32 +6,16 @@
     <title>GOR.A TATTOO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <button class="floating-btn" onclick="showTab('booking')">
-    <i class="fas fa-calendar-alt"></i> ЗАПИСАТИСЬ
-</button>
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-analytics.js";
+        <i class="fas fa-calendar-alt"></i> ЗАПИСАТИСЬ
+    </button>
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyBU7yr7SRj8JEvDHmY4w7SSXIX8zjgocCg",
-        authDomain: "goratattokrop.firebaseapp.com",
-        projectId: "goratattokrop",
-        storageBucket: "goratattokrop.firebasestorage.app",
-        messagingSenderId: "921888337663",
-        appId: "1:921888337663:web:06a6fa71a114c35a4326ca",
-        measurementId: "G-F4F8ENB5D7"
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const analytics = getAnalytics(app);
-    </script>
-
+    <!-- Навігація -->
     <nav class="main-nav">
         <div class="logo" onclick="showTab('home')"><i class="fas fa-pen-nib"></i> GOR.A</div>
         <ul>
@@ -43,6 +27,7 @@
         </ul>
     </nav>
 
+    <!-- Головна -->
     <div id="home" class="tab-content active">
         <section class="hero">
             <h1 class="neon-title"><i class="fas fa-pen-nib"></i> GOR.A TATTOO</h1>
@@ -65,27 +50,55 @@
         </div>
     </div>
 
+    <!-- Запис (З ДОДАНИМ ПОЛЕМ ФОТО) -->
     <div id="booking" class="tab-content">
-        <h2 class="section-title">Запис на сеанс</h2>
-        <div class="care-guide-v2" style="max-width: 500px; margin: 0 auto;">
+        <h2 class="section-title">Заявка на оцінку тату</h2>
+        
+        <div class="care-guide-v2" style="max-width: 500px; margin: 0 auto; text-align: left;">
             <div id="booking-form-container">
-                <div class="care-block">
-                    <h4 style="color: var(--neon-pink);">Оберіть дату</h4>
-                    <input type="date" id="book-date" class="booking-input">
-                    
-                    <h4 style="color: var(--neon-pink);">Ваше ім'я</h4>
-                    <input type="text" id="book-name" placeholder="Як до вас звертатися?" class="booking-input">
-                    
-                    <h4 style="color: var(--neon-pink);">Телефон / Instagram</h4>
-                    <input type="text" id="book-contact" placeholder="@username або номер" class="booking-input">
-                    
-                    <button id="submit-booking" class="btn-course" style="width: 100%; font-size: 1.2rem; margin-top: 20px;">ЗАБРОНЮВАТИ</button>
+                
+                <div class="care-block" style="margin-bottom: 20px;">
+                    <h4 style="color: var(--neon-pink); margin-bottom: 8px; font-size: 0.9rem;">ВАШЕ ІМ'Я:</h4>
+                    <input type="text" id="book-name" placeholder="Як до вас звертатися?" class="booking-input" style="margin-bottom: 0;">
                 </div>
+
+                <div class="care-block" style="margin-bottom: 20px;">
+                    <h4 style="color: var(--neon-pink); margin-bottom: 8px; font-size: 0.9rem;">ОБЕРІТЬ ДАТУ:</h4>
+                    <div id="book-date-container" style="position: relative;">
+                        <input type="text" id="book-date" placeholder="Натисніть, щоб обрати" class="booking-input" readonly style="margin-bottom: 0; cursor: pointer;">
+                    </div>
+                </div>
+
+                <div class="care-block" style="margin-bottom: 20px;">
+                    <h4 style="color: var(--neon-pink); margin-bottom: 8px; font-size: 0.9rem;">ОПИШІТЬ ІДЕЮ (місце, розмір):</h4>
+                    <textarea id="book-idea" placeholder="Наприклад: Змія на передпліччі, 15 см" class="booking-input" style="height: 100px; resize: none; margin-bottom: 0; padding-top: 12px; line-height: 1.4;"></textarea>
+                </div>
+
+                <!-- НОВЕ ПОЛЕ ДЛЯ ФОТО -->
+                <div class="care-block" style="margin-bottom: 20px;">
+                    <h4 style="color: var(--neon-pink); margin-bottom: 8px; font-size: 0.9rem;">ДОДАТИ ЕСКІЗ АБО ФОТО МІСЦЯ:</h4>
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="book-file" accept="image/*" style="display: none;">
+                        <label for="book-file" class="booking-input" style="display: block; cursor: pointer; text-align: center; border: 1px dashed var(--neon-pink); padding: 15px;">
+                            <i class="fas fa-camera" style="margin-right: 10px;"></i> 
+                            <span id="file-label">ОБРАТИ ФОТО</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="care-block" style="margin-bottom: 25px;">
+                    <h4 style="color: var(--neon-pink); margin-bottom: 8px; font-size: 0.9rem;">INSTAGRAM АБО НОМЕР:</h4>
+                    <input type="text" id="book-contact" placeholder="@nickname або 099..." class="booking-input" style="margin-bottom: 0;">
+                </div>
+
+                <button id="submit-booking" class="btn-course" style="width: 100%; font-size: 1.2rem; py: 15px;">ВІДПРАВИТИ НА ОЦІНКУ</button>
             </div>
-            <div id="booking-status" style="margin-top: 20px; color: var(--neon-pink); display: none; font-weight: bold; text-align: center;"></div>
+
+            <div id="booking-status" style="display:none; color: #ffcc00; margin-top: 25px; padding: 15px; text-align: center; border: 1px dashed #ffcc00; background: rgba(255, 204, 0, 0.02); font-size: 0.9rem; line-height: 1.5;"></div>
         </div>
     </div>
 
+    <!-- Інформація -->
     <div id="aftercare" class="tab-content">
         <h2 class="section-title">Корисна інформація</h2>
         <div class="info-posters">
@@ -101,6 +114,7 @@
         </div>
     </div>
 
+    <!-- Догляд -->
     <div id="care" class="tab-content">
         <h2 class="section-title">Догляд</h2>
         <div class="care-guide-v2">
@@ -150,6 +164,7 @@
         </div>
     </div>
 
+    <!-- Контакти -->
     <div id="contact" class="tab-content">
         <h2 class="section-title">КОНТАКТИ</h2>
         <div class="contact-container">
@@ -171,27 +186,29 @@
         <img class="modal-content" id="full-image">
     </div>
 
+    <!-- Firebase SDK (Класичний режим для стабільності) -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     
+    <!-- Твій скрипт -->
     <script src="script.js"></script>
-    <div id="admin-panel" class="tab-content" style="display: none; padding-top: 100px;">
-    <h2 class="section-title" style="color: var(--neon-red);">CONTROL PANEL</h2>
+
+    <!-- Адмін-панель -->
+   <div id="admin-panel" class="tab-content" style="display: none; padding-top: 100px;">
+    <h2 class="section-title" style="color: var(--neon-red); text-align: center;">CONTROL PANEL</h2>
     <div class="care-guide-v2" style="max-width: 600px; margin: 0 auto; background: rgba(10,10,10,0.9); padding: 20px; border: 1px solid #222;">
-        
         <div id="admin-interface">
-            <h4 style="color: var(--neon-pink); border-bottom: 1px solid #222; padding-bottom: 10px;">СПИСОК ЗАПИСІВ</h4>
-            <div id="admin-bookings-list" style="text-align: left; margin-bottom: 30px; max-height: 400px; overflow-y: auto;">
-                </div>
+            <h4 style="color: var(--neon-pink); border-bottom: 1px solid #222; padding-bottom: 10px; text-align: center;">СПИСОК ЗАПИСІВ</h4>
+            <div id="admin-bookings-list" style="text-align: left; margin-bottom: 30px; max-height: 400px; overflow-y: auto;"></div>
             
-            <h4 style="color: var(--neon-red); border-bottom: 1px solid #222; padding-bottom: 10px;">КЕРУВАННЯ ГРАФІКОМ</h4>
-            <p style="font-size: 0.8rem; color: #888;">Оберіть дату, щоб зробити її вихідним:</p>
+            <h4 style="color: var(--neon-red); border-bottom: 1px solid #222; padding-bottom: 10px; text-align: center;">КЕРУВАННЯ ГРАФІКОМ</h4>
+            <p style="font-size: 0.8rem; color: #888; text-align: center;">Оберіть дату, щоб зробити її вихідним:</p>
             <input type="date" id="admin-day-off" class="booking-input" style="margin-bottom: 10px;">
             <button onclick="setDayOff()" class="btn-course" style="width: 100%; border-color: var(--neon-red); color: var(--neon-red);">ЗАБЛОКУВАТИ ДАТУ</button>
             
             <button onclick="showTab('home')" class="btn-contact" style="margin-top: 30px; width: 100%; opacity: 0.5;">ВИЙТИ З АДМІНКИ</button>
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>
