@@ -74,6 +74,8 @@ body {
     display: none;
     padding: 100px 20px 40px;
     min-height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .tab-content.active {
@@ -86,20 +88,33 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- HERO СЕКЦІЯ --- */
+/* --- HERO СЕКЦІЯ ТА ПРОМО-ФОТО --- */
 .hero {
-    height: 35vh;
+    min-height: 40vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+    padding: 20px;
+}
+
+/* ВИПРАВЛЕНЕ ПРОМО ФОТО */
+.promo-img {
+    width: 100%;
+    max-width: 500px; /* Обмежуємо максимальну ширину */
+    height: auto;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.1);
+    object-fit: contain;
 }
 
 .neon-title {
     font-size: clamp(2rem, 5vw, 3.5rem);
     text-transform: uppercase;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     text-shadow: 0 0 25px var(--neon-pink);
     letter-spacing: 4px;
 }
@@ -108,15 +123,15 @@ body {
     color: var(--grey-text);
     font-size: 0.9rem;
     letter-spacing: 1px;
+    max-width: 600px;
 }
 
 /* --- ГАЛЕРЕЯ --- */
 .reveal-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 10px;
-    max-width: 1200px;
-    margin: 0 auto;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+    padding: 20px 0;
 }
 
 .reveal-item {
@@ -127,6 +142,7 @@ body {
     overflow: hidden;
     background: #0a0a0a;
     border: 1px solid var(--border-color);
+    border-radius: 4px;
 }
 
 .reveal-item.visible {
@@ -144,33 +160,32 @@ body {
 }
 
 .reveal-item img:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
     filter: grayscale(0);
-    border-color: var(--neon-pink);
 }
 
-/* --- КОНТЕЙНЕР ГІДУ ТА ФОРМИ --- */
+/* --- ФОРМА ТА ГІД --- */
 .care-guide-v2 {
     max-width: 650px;
-    margin: 0 auto;
+    margin: 0 auto 40px;
     padding: 30px;
     background: #070707;
     border: 1px solid #1a1a1a;
     line-height: 1.6;
+    border-radius: 8px;
 }
 
-/* --- ФОРМА ЗАПИСУ (ВИПРАВЛЕНА) --- */
 .booking-form-v2 {
     max-width: 500px;
+    margin: 0 auto;
     padding: 25px;
+    background: #0a0a0a;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
 }
 
 .care-block {
-    margin-bottom: 20px; /* Нижній відступ між блоками */
-}
-
-.care-block:last-of-type {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .input-label {
@@ -180,6 +195,7 @@ body {
     font-weight: 700;
     letter-spacing: 1px;
     display: block;
+    text-align: left;
 }
 
 .booking-input {
@@ -192,7 +208,7 @@ body {
     font-size: 0.95rem;
     outline: none;
     transition: 0.3s;
-    border-radius: 2px;
+    border-radius: 4px;
 }
 
 .booking-input:focus {
@@ -200,92 +216,49 @@ body {
     box-shadow: 0 0 12px rgba(255, 0, 255, 0.15);
 }
 
-/* Текстове поле */
 .idea-textarea {
-    height: 90px;
+    height: 100px;
     resize: none;
-    line-height: 1.4;
-    padding-top: 12px;
-}
-
-/* Блок фото (НОВИЙ) */
-.file-upload-wrapper {
-    position: relative;
 }
 
 .file-label-btn {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    text-align: center;
     border: 1px dashed var(--neon-pink) !important;
     padding: 15px;
     background: rgba(255, 0, 255, 0.02);
     transition: 0.3s;
-}
-
-.file-label-btn i {
-    color: var(--neon-pink);
-    margin-right: 8px;
-    font-size: 1rem;
-}
-
-.file-label-btn span {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: white;
-    letter-spacing: 1px;
+    border-radius: 4px;
 }
 
 .file-label-btn:hover {
     background: rgba(255, 0, 255, 0.08);
-    box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
 }
 
-/* Кнопка відправки */
+/* КНОПКА ВІДПРАВКИ (ВИПРАВЛЕНО) */
 .submit-btn {
     width: 100%;
-    margin-top: 10px;
-    py: 16px;
-}
-
-/* Статус */
-.status-box {
-    display: none;
-    color: #ffcc00;
-    margin-top: 25px;
-    padding: 15px;
-    text-align: center;
-    border: 1px dashed #ffcc00;
-    background: rgba(255, 204, 0, 0.03);
-    font-size: 0.85rem;
-    line-height: 1.5;
-}
-
-/* --- КНОПКИ ГЛОБАЛЬНІ --- */
-.btn-course, .btn-contact, .btn-more {
-    display: inline-block;
-    padding: 14px 28px;
-    background: transparent;
-    border: 1px solid var(--neon-pink);
-    color: white;
-    text-decoration: none;
-    font-weight: 700;
-    font-family: var(--font-main);
-    cursor: pointer;
-    transition: 0.3s;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-}
-
-.btn-course:hover, .btn-more:hover {
+    margin-top: 15px;
+    padding: 16px 0; /* Виправлено з py: 16px */
     background: var(--neon-pink);
     color: #000;
+    border: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 4px;
+}
+
+.submit-btn:hover {
+    background: #fff;
     box-shadow: 0 0 20px var(--neon-pink);
 }
 
-/* Плаваюча кнопка */
+/* ПЛАВАЮЧА КНОПКА */
 .floating-btn {
     position: fixed;
     bottom: 25px;
@@ -297,10 +270,8 @@ body {
     padding: 15px 25px;
     border-radius: 50px;
     font-weight: 700;
-    font-family: var(--font-main);
     text-transform: uppercase;
     font-size: 0.85rem;
-    letter-spacing: 1px;
     box-shadow: 0 0 25px var(--neon-pink);
     cursor: pointer;
     display: flex;
@@ -310,127 +281,43 @@ body {
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); box-shadow: 0 0 25px var(--neon-pink); }
-    50% { transform: scale(1.03); box-shadow: 0 0 35px var(--neon-pink); }
-    100% { transform: scale(1); box-shadow: 0 0 25px var(--neon-pink); }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
 /* --- АДАПТИВНІСТЬ --- */
-/* --- ПОКРАЩЕНА АДАПТИВНІСТЬ --- */
 @media (max-width: 768px) {
-    /* Навігація: робимо її компактнішою */
-   .main-nav {
-    padding: 10px 5px;
-    height: auto;
-    min-height: 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    .main-nav { padding: 15px; }
+    .logo { font-size: 1.1rem; }
+    .main-nav ul { gap: 10px; }
+    .main-nav li { font-size: 0.65rem; }
 }
 
-.main-nav ul {
-    gap: 8px;
-    margin-top: 5px;
-    flex-wrap: nowrap; /* Не даємо розриватись на два рядки */
-    overflow-x: auto; /* Дозволяємо свайп меню, якщо екран дуже вузький */
-    width: 100%;
-    padding-bottom: 5px;
-}
-
-.main-nav li {
-    font-size: 10px; /* Трохи збільшуємо для читабельності */
-    letter-spacing: 0.5px;
-    flex-shrink: 0;
-}
-    /* Галерея: 2 колонки на малих екранах */
-    .reveal-gallery { 
-        grid-template-columns: repeat(2, 1fr); 
-        gap: 5px;
+@media (max-width: 600px) {
+    .main-nav { 
+        padding: 10px 15px; 
+        flex-direction: column; 
+        height: auto;
     }
-
-    /* Форма запису: на весь екран */
-    .care-guide-v2 { 
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 15px;
-        border: none; /* Прибираємо рамки на мобілці для економії місця */
+    .main-nav ul { 
+        margin-top: 10px; 
+        width: 100%; 
+        justify-content: center; 
+        flex-wrap: wrap;
     }
-
-    .booking-input {
-        font-size: 16px !important; /* Важливо: запобігає авто-зуму в Safari на iPhone */
-        padding: 12px;
-    }
-
-    /* Кнопка "Записатись" */
+    .main-nav li { padding: 5px; }
+    .tab-content { padding-top: 140px; }
+    
+    .promo-img { max-width: 100%; }
+    .neon-title { font-size: 1.8rem; }
+    
+    .reveal-gallery { grid-template-columns: 1fr 1fr; gap: 10px; }
+    
     .floating-btn { 
-        bottom: 20px; 
-        right: 20px; 
-        padding: 10px 18px; 
-        font-size: 0.7rem; 
+        bottom: 15px; 
+        right: 15px; 
+        padding: 12px 20px; 
+        font-size: 0.75rem; 
     }
-
-    /* Модальне вікно (фото на весь екран) */
-    .modal-content {
-        width: 95%;
-    }
-}
-/* Центрування заголовків та контенту */
-.section-title, .neon-title, .hero p, .care-block h4, .care-block p, .final-rule {
-    text-align: center;
-}
-
-.care-guide-v2 {
-    text-align: center;
-}
-
-/* Кнопки керування в адмінці */
-.admin-controls {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-    justify-content: center;
-}
-
-.btn-approve { background: #28a745; color: white; border: none; padding: 8px 15px; cursor: pointer; font-weight: bold; }
-.btn-reject { background: transparent; border: 1px solid #ff4444; color: #ff4444; padding: 8px 15px; cursor: pointer; }
-.btn-delete-small { background: #444; color: #fff; border: none; padding: 8px 12px; cursor: pointer; }
-/* Стиль для ПІДТВЕРДЖЕНИХ записів (Червоний) */
-.flatpickr-day.booked-day-red {
-    background: #ff4444 !important;
-    border-color: #ff4444 !important;
-    color: white !important;
-    opacity: 1 !important;
-    cursor: not-allowed !important;
-}
-
-/* Стиль для ВИХІДНИХ (Фіолетовий) */
-.flatpickr-day.day-off-style {
-    background: #a333ff !important;
-    border-color: #a333ff !important;
-    color: white !important;
-    opacity: 1 !important;
-    cursor: not-allowed !important;
-}
-
-/* Додатково: щоб при наведенні колір не зникав */
-.flatpickr-day.booked-day-red:hover, 
-.flatpickr-day.day-off-style:hover {
-    background: inherit !important;
-}
-/* Адаптація календаря під мобільні */
-.flatpickr-calendar {
-    width: 280px !important; /* Фіксована ширина для малих екранів */
-}
-
-@media (max-width: 350px) {
-    .flatpickr-calendar {
-        left: 0 !important;
-        right: 0 !important;
-        margin: 0 auto;
-    }
-}
-
-/* Контейнер дати */
-#book-date-container {
-    width: 100%;
 }
