@@ -2,7 +2,18 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOR.A TATTOO | Тату Кропивницький | Антоніна Гордова</title>
+<meta name="description" content="Професійне татуювання у Кропивницькому від Антоніни Гордової. Авторські ескізи, перекриття, безпечне нанесення та навчання тату. Записуйтесь онлайн!">
+<meta name="keywords" content="тату кропивницький, татуювання, gora tattoo, гордова антоніна, зробити тату, навчання тату кропивницький">
+<meta name="author" content="Antonina Gordova">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gor-a-tatto.vercel.app/">
+<meta property="og:title" content="GOR.A TATTOO — Твій стиль на твоїй шкірі">
+<meta property="og:description" content="Майстер тату у Кропивницькому. Переглянь мої роботи та запишись на сеанс онлайн.">
+<meta property="og:image" content="https://gor-a-tatto.vercel.app/img/promo.jpg">
+
+<meta name="theme-color" content="#050505">
     <title>GOR.A TATTOO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -91,7 +102,7 @@
                     <input type="text" id="book-contact" placeholder="@nickname або 099..." class="booking-input" style="margin-bottom: 0;">
                 </div>
 
-                <button id="submit-booking" class="btn-course" style="width: 100%; font-size: 1.2rem; py: 15px;">ВІДПРАВИТИ НА ОЦІНКУ</button>
+                <button id="submit-booking" class="btn-course" style="width: 100%; font-size: 1.2rem; padding: 15px 0;">ВІДПРАВИТИ НА ОЦІНКУ</button>
             </div>
 
             <div id="booking-status" style="display:none; color: #ffcc00; margin-top: 25px; padding: 15px; text-align: center; border: 1px dashed #ffcc00; background: rgba(255, 204, 0, 0.02); font-size: 0.9rem; line-height: 1.5;"></div>
@@ -100,19 +111,39 @@
 
     <!-- Інформація -->
     <div id="aftercare" class="tab-content">
-        <h2 class="section-title">Корисна інформація</h2>
-        <div class="info-posters">
-            <img src="img/info/price.jpg" alt="Прайс-лист">
-            <img src="img/info/rules.jpg" alt="Пам'ятка">
-            <img src="img/info/prepayment.jpg" alt="Передоплата">
-            <img src="img/info/certificate.jpg" alt="Сертифікат">
-            
-            <div class="course-card">
-                <img src="img/info/course.jpg" alt="Навчання тату">
-                <button class="btn-course" onclick="showTab('contact')">ЗАПИСАТИСЯ НА КУРС</button>
-            </div>
+    <h2 class="section-title">ВАЖЛИВО ЗНАТИ</h2>
+    
+    <div class="info-posters-gallery">
+        <div class="poster-item">
+            <img src="img/info/price.jpg" alt="Прайс-лист" class="clickable-poster" onclick="openFullPoster(this.src)">
+            <div class="poster-caption">Прайс</div>
+        </div>
+        
+        <div class="poster-item">
+            <img src="img/info/rules.jpg" alt="Пам'ятка" class="clickable-poster" onclick="openFullPoster(this.src)">
+            <div class="poster-caption">Правила</div>
+        </div>
+        
+        <div class="poster-item">
+            <img src="img/info/prepayment.jpg" alt="Передоплата" class="clickable-poster" onclick="openFullPoster(this.src)">
+            <div class="poster-caption">Передоплата</div>
+        </div>
+        
+        <div class="poster-item">
+            <img src="img/info/certificate.jpg" alt="Сертифікат" class="clickable-poster" onclick="openFullPoster(this.src)">
+            <div class="poster-caption">Сертифікат</div>
         </div>
     </div>
+
+    <div class="course-special-block">
+        <img src="img/info/course.jpg" alt="Навчання тату" class="course-bg">
+        <div class="course-overlay">
+            <h3>ІНДИВІДУАЛЬНЕ НАВЧАННЯ ТАТУ</h3>
+            <p>Стань майстром "з нуля" під моїм керівництвом.</p>
+            <button class="submit-btn" style="max-width: 280px; margin-top: 15px;" onclick="showTab('contact')">ДІЗНАТИСЯ ДЕТАЛІ</button>
+        </div>
+    </div>
+</div>
 
     <!-- Догляд -->
     <div id="care" class="tab-content">
@@ -166,20 +197,46 @@
 
     <!-- Контакти -->
     <div id="contact" class="tab-content">
-        <h2 class="section-title">КОНТАКТИ</h2>
-        <div class="contact-container">
-            <div class="contact-grid">
-                <a href="https://www.instagram.com/gor.a_tatto_krop/" class="btn btn-contact" target="_blank"><i class="fab fa-instagram"></i> INSTAGRAM</a>
-                <a href="https://www.tiktok.com/@gora.tattoo_krop" class="btn btn-contact" target="_blank"><i class="fab fa-tiktok"></i> TIK TOK</a>
-                <a href="https://www.facebook.com/share/17TXZyaR2o/" class="btn btn-contact" target="_blank"><i class="fab fa-facebook-f"></i> FACEBOOK</a>
-                <a href="tel:+380500804864" class="btn btn-contact btn-phone"><i class="fas fa-phone-alt"></i> ЗАТЕЛЕФОНУВАТИ</a>
-                <div class="map-button-wrapper">
-                    <a href="https://maps.app.goo.gl/kh84goEFJtkEdg9s8" class="btn btn-contact btn-maps" target="_blank"><i class="fas fa-map-marker-alt"></i> ГУГЛ КАРТИ</a>
-                    <p class="map-hint">Натисни щоб дізнатися</p>
-                </div>
+    <h2 class="section-title">ЗВ'ЯЗОК З МАЙСТРОМ</h2>
+    
+    <div class="contact-container">
+        <div class="contact-grid">
+            <a href="https://www.instagram.com/gor.a_tatto_krop/" class="contact-card insta" target="_blank">
+                <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+                <small>@gor.a_tatto_krop</small>
+            </a>
+            
+            <a href="https://www.tiktok.com/@gora.tattoo_krop" class="contact-card tiktok" target="_blank">
+                <i class="fab fa-tiktok"></i>
+                <span>TikTok</span>
+                <small>Дивитись відео</small>
+            </a>
+
+            <a href="tel:+380500804864" class="contact-card phone">
+                <i class="fas fa-phone-alt"></i>
+                <span>Зателефонувати</span>
+                <small>+38 (050) 080 48 64</small>
+            </a>
+
+            <a href="https://www.facebook.com/share/17TXZyaR2o/" class="contact-card fb" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+                <span>Facebook</span>
+                <small>Антоніна Гордова</small>
+            </a>
+        </div>
+
+        <div class="location-section">
+            <div class="location-info">
+                <i class="fas fa-map-marker-alt" style="color: var(--neon-pink);"></i>
+                <p>м. Кропивницький, центр міста</p>
             </div>
+            <a href="https://www.google.com/maps/search/?api=1&query=Кропивницький+тату+Гордова" class="btn-maps-new" target="_blank">
+                ВІДКРИТИ В ГУГЛ КАРТАХ
+            </a>
         </div>
     </div>
+</div>
 
     <div id="image-modal" class="modal">
         <span class="close-modal">×</span>
@@ -210,5 +267,9 @@
             </div>
         </div>
     </div>
+    <div id="image-modal" class="modal">
+    <span class="close-modal">&times;</span>
+    <img class="modal-content" id="full-image">
+</div>
 </body>
 </html>
