@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Адмін-панель</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+</head>
+<body style="background: #050505; color: white; padding: 20px;">
+
+    <div id="login-screen" style="display: none; flex-direction: column; align-items: center; margin-top: 50px;">
+        <h2>ВХІД В АДМІНКУ</h2>
+        <input type="email" id="admin-email" placeholder="Email" class="booking-input" style="width: 300px; margin: 5px;">
+        <input type="password" id="admin-pass" placeholder="Пароль" class="booking-input" style="width: 300px; margin: 5px;">
+        <button onclick="loginAdmin()" class="btn-course">УВІЙТИ</button>
+    </div>
+
+    <div id="admin-panel" style="display: none; max-width: 600px; margin: auto;">
+        <h1>КЕРУВАННЯ</h1>
+        <div id="admin-bookings-list"></div>
+        
+        <hr style="margin: 20px 0;">
+        
+        <h3>ДОДАТИ ЗАПИС</h3>
+        <input type="text" id="manual-name" placeholder="Ім'я" class="booking-input">
+        <input type="text" id="manual-contact" placeholder="Контакт" class="booking-input">
+        <input type="text" id="manual-idea" placeholder="Ідея" class="booking-input">
+        <input type="date" id="manual-date" class="booking-input">
+        <button onclick="addManualBooking()" class="btn-course">ЗАПИСАТИ</button>
+        
+        <h3 style="margin-top: 20px;">БЛОКУВАТИ ДЕНЬ</h3>
+        <input type="date" id="admin-day-off" class="booking-input">
+        <button onclick="setDayOff()" class="btn-course" style="color: red; border-color: red;">ВИХІДНИЙ</button>
+        
+        <button onclick="auth.signOut()" style="margin-top: 40px; display: block; width: 100%; background: none; color: #444; border: none;">Вийти</button>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>
