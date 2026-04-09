@@ -4,20 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GOR.A TATTOO</title>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
     <link rel="stylesheet" href="style.css">
-
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://npmcdn.com/flatpickr/dist/l10n/uk.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/uk.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-   
 </head>
 <body>
-    <button class="floating-btn" onclick="showTab('booking')">
+
+    <button class="floating-btn" onclick="showTab('client-cabinet'); openCabinetSection('booking')">
         <i class="fas fa-calendar-alt"></i> ЗАПИСАТИСЬ
     </button>
 
@@ -26,30 +25,26 @@
         <div class="logo" onclick="showTab('home')"><i class="fas fa-pen-nib"></i> GOR.A</div>
         <ul>
             <li onclick="showTab('home')">ГОЛОВНА</li>
-            <li onclick="showTab('booking')">ЗАПИС</li> 
             <li onclick="showTab('aftercare')">ІНФОРМАЦІЯ</li>
             <li onclick="showTab('care')">ДОГЛЯД</li>
             <li onclick="showTab('contact')">КОНТАКТИ</li>
-            <li onclick="showTab('client-cabinet')">ВХІД</li>
+            <li id="nav-cabinet-btn" onclick="showTab('client-cabinet')">ВХІД</li>
         </ul>
     </nav>
 
-    <!-- Головна -->
+    <!-- ГОЛОВНА -->
     <div id="home" class="tab-content active">
         <section class="hero">
             <h1 class="neon-title"><i class="fas fa-pen-nib"></i> GOR.A TATTOO</h1>
             <p>Гордова Антоніна • Тату Кропивницький</p>
         </section>
-
         <section class="about-section">
             <div class="about-container">
                 <img src="img/promo.jpg" alt="Gor.A Tattoo" class="promo-img">
             </div>
             <div class="scroll-indicator">гортай вниз, щоб побачити роботи ↓</div>
         </section>
-
         <div id="photo-grid" class="reveal-gallery"></div>
-
         <div class="more-works-container">
             <a href="https://www.instagram.com/gor.a_tatto_krop/" class="btn btn-more" target="_blank">
                 БІЛЬШЕ РОБІТ В INSTAGRAM <i class="fab fa-instagram"></i>
@@ -57,75 +52,26 @@
         </div>
     </div>
 
-    <!-- Запис (З ДОДАНИМ ПОЛЕМ ФОТО) -->
-    <div id="booking" class="tab-content">
-        <h2 class="section-title">Заявка на оцінку тату</h2>
-        
-        <div class="care-guide-v2" style="max-width: 500px; margin: 0 auto; text-align: left;">
-            <div id="booking-form-container">
-                
-                <div class="care-block" style="margin-bottom: 20px;">
-                    <h4 style="color: var(--neon-pink); margin-bottom: 8px; font-size: 0.9rem;">ВАШЕ ІМ'Я:</h4>
-                    <input type="text" id="book-name" placeholder="Як до вас звертатися?" class="booking-input" style="margin-bottom: 0;">
-                </div>
-
-                <div class="care-block" style="margin-bottom: 20px;">
-                    <h4 style="color: var(--neon-pink); margin-bottom: 8px; font-size: 0.9rem;">ОБЕРІТЬ ДАТУ:</h4>
-                    <div id="book-date-container" style="position: relative;">
-                        <input type="text" id="book-date" placeholder="Натисніть, щоб обрати" class="booking-input" readonly style="margin-bottom: 0; cursor: pointer;">
-                    </div>
-                </div>
-
-                <div class="care-block" style="margin-bottom: 20px;">
-                    <h4 style="color: var(--neon-pink); margin-bottom: 8px; font-size: 0.9rem;">ОПИШІТЬ ІДЕЮ (місце, розмір):</h4>
-                    <textarea id="book-idea" placeholder="Наприклад: Змія на передпліччі, 15 см" class="booking-input" style="height: 100px; resize: none; margin-bottom: 0; padding-top: 12px; line-height: 1.4;"></textarea>
-                </div>
-
-                <!-- НОВЕ ПОЛЕ ДЛЯ ФОТО -->
-                <div class="care-block" style="margin-bottom: 20px;">
-                    <h4 style="color: var(--neon-pink); margin-bottom: 8px; font-size: 0.9rem;">ДОДАТИ ЕСКІЗ АБО ФОТО МІСЦЯ:</h4>
-                    <div class="file-upload-wrapper">
-                        <input type="file" id="book-file" accept="image/*" style="display: none;">
-                        <label for="book-file" class="booking-input" style="display: block; cursor: pointer; text-align: center; border: 1px dashed var(--neon-pink); padding: 15px;">
-                            <i class="fas fa-camera" style="margin-right: 10px;"></i> 
-                            <span id="file-label">ОБРАТИ ФОТО</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="care-block" style="margin-bottom: 25px;">
-                    <h4 style="color: var(--neon-pink); margin-bottom: 8px; font-size: 0.9rem;">INSTAGRAM АБО НОМЕР:</h4>
-                    <input type="text" id="book-contact" placeholder="@nickname або 099..." class="booking-input" style="margin-bottom: 0;">
-                </div>
-
-                <button id="submit-booking" class="btn-course" style="width: 100%; font-size: 1.2rem; py: 15px;">ВІДПРАВИТИ НА ОЦІНКУ</button>
-            </div>
-
-            <div id="booking-status" style="display:none; color: #ffcc00; margin-top: 25px; padding: 15px; text-align: center; border: 1px dashed #ffcc00; background: rgba(255, 204, 0, 0.02); font-size: 0.9rem; line-height: 1.5;"></div>
-        </div>
-    </div>
-
-    <!-- Інформація -->
-   <div id="aftercare" class="tab-content">
+    <!-- ІНФОРМАЦІЯ -->
+    <div id="aftercare" class="tab-content">
         <h2 class="section-title">Корисна інформація</h2>
         <div class="info-posters">
             <img src="img/info/price.jpg" alt="Прайс-лист">
             <img src="img/info/rules.jpg" alt="Пам'ятка">
-            <img src="img/info/prepayment.jpg" alt="Передоплата">
+            <img src="img/info/prepayment.JPG" alt="Передоплата">
             <img src="img/info/certificate.jpg" alt="Сертифікат">
-            
             <div class="course-card">
-                <img src="img/info/course.jpg" alt="Навчання тату">
-                <button class="btn-course" onclick="showTab('contact')">ЗАПИСАТИСЯ НА КУРС</button>
+                <img src="img/info/course.JPG" alt="Навчання тату">
+                <button class="btn-course" onclick="showTab('client-cabinet'); openCabinetSection('booking')">ЗАПИСАТИСЯ НА КУРС</button>
             </div>
         </div>
     </div>
 
-    <!-- Догляд -->
+    <!-- ДОГЛЯД -->
     <div id="care" class="tab-content">
         <h2 class="section-title">Догляд</h2>
         <div class="care-guide-v2">
-            <h3 class="guide-main-title">🖤 ПАМ’ЯТКА ПО ДОГЛЯДУ ЗА СВІЖИМ ТАТУ</h3>
+            <h3 class="guide-main-title">🖤 ПАМ'ЯТКА ПО ДОГЛЯДУ ЗА СВІЖИМ ТАТУ</h3>
             <div class="care-block">
                 <h4>1️⃣ Перші години</h4>
                 <p>Тату закрите. Через 3–5 годин знімаємо захист (як казав майстер).</p>
@@ -135,7 +81,7 @@
             <div class="care-block">
                 <h4>2️⃣ Скільки разів мити?</h4>
                 <p>🔹 Перші 3–5 днів — 3 рази на день.<br>(ранок / день / вечір)</p>
-                <p>Якщо спітніли або забруднили — можна додатково промивавати.</p>
+                <p>Якщо спітніли або забруднили — можна додатково промивати.</p>
                 <p><strong>Головне правило:</strong><br>частіше — можна, терти — не можна 😌</p>
             </div>
             <div class="care-divider">⸻</div>
@@ -157,7 +103,7 @@
             <div class="care-divider">⸻</div>
             <div class="care-block">
                 <h4>6️⃣ Буде свербіти</h4>
-                <p>🚫 Не чухати<br>🚫 Не здиради кірочки<br>🚫 Не перевіряти «а що там під нею»</p>
+                <p>🚫 Не чухати<br>🚫 Не здирати кірочки<br>🚫 Не перевіряти «а що там під нею»</p>
             </div>
             <div class="care-divider">⸻</div>
             <div class="care-block">
@@ -171,80 +117,181 @@
         </div>
     </div>
 
-    <!-- Контакти -->
-     <div id="contact" class="tab-content">
+    <!-- КОНТАКТИ -->
+    <div id="contact" class="tab-content">
         <h2 class="section-title">КОНТАКТИ</h2>
         <div class="contact-container">
-            <div class="contact-grid">
-                <a href="https://www.instagram.com/gor.a_tatto_krop/" class="btn btn-contact" target="_blank"><i class="fab fa-instagram"></i> INSTAGRAM</a>
-                <a href="https://www.tiktok.com/@gora.tattoo_krop" class="btn btn-contact" target="_blank"><i class="fab fa-tiktok"></i> TIK TOK</a>
-                <a href="https://www.facebook.com/share/17TXZyaR2o/" class="btn btn-contact" target="_blank"><i class="fab fa-facebook-f"></i> FACEBOOK</a>
-                <a href="tel:+380500804864" class="btn btn-contact btn-phone"><i class="fas fa-phone-alt"></i> ЗАТЕЛЕФОНУВАТИ</a>
-                <div class="map-button-wrapper">
-                    <a href="https://maps.app.goo.gl/kh84goEFJtkEdg9s8" class="btn btn-contact btn-maps" target="_blank"><i class="fas fa-map-marker-alt"></i> ГУГЛ КАРТИ</a>
-                    <p class="map-hint">Натисни щоб дізнатися</p>
+
+            <!-- Соціальні мережі -->
+            <p class="contact-section-label">СТУДІЯ</p>
+            <div class="manager-card">
+                <div class="manager-icon"><i class="fas fa-paint-brush"></i></div>
+                <div class="manager-info">
+                    <span class="manager-title">GOR.A TATTOO</span>
+                    <span class="manager-desc">Instagram · TikTok · Facebook · Телефон</span>
                 </div>
             </div>
+            <div class="contact-grid studio-btns">
+                <a href="https://www.instagram.com/gor.a_tatto_krop/" class="btn btn-contact btn-studio-ig" target="_blank"><i class="fab fa-instagram"></i> INSTAGRAM</a>
+                <a href="https://www.tiktok.com/@gora.tattoo_krop" class="btn btn-contact btn-studio-tt" target="_blank"><i class="fab fa-tiktok"></i> TIK TOK</a>
+                <a href="https://www.facebook.com/share/17TXZyaR2o/" class="btn btn-contact btn-studio-fb" target="_blank"><i class="fab fa-facebook-f"></i> FACEBOOK</a>
+                <a href="tel:+380500804864" class="btn btn-contact btn-phone"><i class="fas fa-phone-alt"></i> ЗАТЕЛЕФОНУВАТИ</a>
+            </div>
+
+            <!-- Менеджер -->
+            <p class="contact-section-label">МЕНЕДЖЕР</p>
+            <div class="manager-card">
+                <div class="manager-icon"><i class="fas fa-headset"></i></div>
+                <div class="manager-info">
+                    <span class="manager-title">Менеджер GOR.A TATTOO</span>
+                    <span class="manager-desc">Передоплата · Підтвердження · Запитання</span>
+                </div>
+            </div>
+            <div class="contact-grid manager-btns">
+                <a href="tel:+380660203950" class="btn btn-contact btn-manager-phone"><i class="fas fa-phone-alt"></i> +38 066 020 39 50</a>
+                <a href="https://t.me/gorameneger" class="btn btn-contact btn-manager-tg" target="_blank"><i class="fab fa-telegram-plane"></i> @gorameneger</a>
+            </div>
+
+            <!-- Адреса -->
+            <p class="contact-section-label">АДРЕСА</p>
+            <div class="map-button-wrapper">
+                <a href="https://maps.app.goo.gl/kh84goEFJtkEdg9s8" class="btn btn-contact btn-maps" target="_blank"><i class="fas fa-map-marker-alt"></i> ГУГЛ КАРТИ</a>
+                <p class="map-hint">Натисни щоб дізнатися адресу</p>
+            </div>
+
         </div>
     </div>
 
+    <!-- ОСОБИСТИЙ КАБІНЕТ -->
+    <div id="client-cabinet" class="tab-content">
+        <h2 class="section-title">ОСОБИСТИЙ КАБІНЕТ</h2>
+        <div class="cabinet-wrap">
+
+            <!-- AUTH BOX (вхід / реєстрація) -->
+            <div id="auth-box" class="cabinet-box">
+                <div class="auth-tabs">
+                    <div class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">ВХІД</div>
+                    <div class="auth-tab" id="tab-reg" onclick="switchAuthTab('reg')">РЕЄСТРАЦІЯ</div>
+                </div>
+
+                <!-- Форма входу -->
+                <div id="form-login" class="cabinet-section active">
+                    <div class="care-block" style="margin-bottom:12px">
+                        <h4>EMAIL</h4>
+                        <input type="email" id="c-email" placeholder="your@email.com" class="booking-input">
+                    </div>
+                    <div class="care-block" style="margin-bottom:18px">
+                        <h4>ПАРОЛЬ</h4>
+                        <input type="password" id="c-pass" placeholder="мінімум 6 символів" class="booking-input">
+                    </div>
+                    <button onclick="handleLogin()" class="btn-course">УВІЙТИ</button>
+                    <p id="auth-error" style="color:#ff4466;font-size:0.78rem;margin-top:12px;text-align:center;display:none;"></p>
+                </div>
+
+                <!-- Форма реєстрації -->
+                <div id="form-reg" class="cabinet-section">
+                    <div class="care-block" style="margin-bottom:12px">
+                        <h4>ІМ'Я</h4>
+                        <input type="text" id="c-name" placeholder="Як вас звати?" class="booking-input">
+                    </div>
+                    <div class="care-block" style="margin-bottom:12px">
+                        <h4>INSTAGRAM АБО НОМЕР</h4>
+                        <input type="text" id="c-contact" placeholder="@nickname або 099..." class="booking-input">
+                    </div>
+                    <div class="care-block" style="margin-bottom:12px">
+                        <h4>EMAIL</h4>
+                        <input type="email" id="c-email-r" placeholder="your@email.com" class="booking-input">
+                    </div>
+                    <div class="care-block" style="margin-bottom:18px">
+                        <h4>ПАРОЛЬ</h4>
+                        <input type="password" id="c-pass-r" placeholder="мінімум 6 символів" class="booking-input">
+                    </div>
+                    <button onclick="handleRegister()" class="btn-course">СТВОРИТИ АКАУНТ</button>
+                    <p id="reg-error" style="color:#ff4466;font-size:0.78rem;margin-top:12px;text-align:center;display:none;"></p>
+                </div>
+            </div>
+
+            <!-- КАБІНЕТ (після входу) -->
+            <div id="cabinet-panel" style="display:none;">
+                <!-- Профіль -->
+                <div class="profile-card">
+                    <div class="profile-row">
+                        <span>ІМ'Я</span>
+                        <span id="disp-name">—</span>
+                    </div>
+                    <div class="profile-row">
+                        <span>КОНТАКТ</span>
+                        <span id="disp-contact">—</span>
+                    </div>
+                    <div class="profile-row">
+                        <span>EMAIL</span>
+                        <span id="disp-email">—</span>
+                    </div>
+                </div>
+
+                <!-- Внутрішня навігація кабінету -->
+                <div class="cabinet-nav">
+                    <div class="cabinet-nav-btn active" id="cnav-booking" onclick="switchCabinetTab('booking')">
+                        <i class="fas fa-calendar-plus"></i> ЗАПИСАТИСЬ
+                    </div>
+                    <div class="cabinet-nav-btn" id="cnav-records" onclick="switchCabinetTab('records')">
+                        <i class="fas fa-list"></i> МОЇ ЗАПИСИ
+                    </div>
+                </div>
+
+                <!-- Форма запису -->
+                <div id="csub-booking" class="cabinet-sub active">
+                    <div class="care-block" style="margin-bottom:12px">
+                        <h4>ВАШЕ ІМ'Я</h4>
+                        <input type="text" id="book-name" placeholder="Як до вас звертатися?" class="booking-input">
+                    </div>
+                    <div class="care-block" style="margin-bottom:12px">
+                        <h4>ОБЕРІТЬ ДАТУ</h4>
+                        <input type="text" id="book-date" placeholder="Натисніть, щоб обрати" class="booking-input" readonly style="cursor:pointer">
+                    </div>
+                    <div class="care-block" style="margin-bottom:12px">
+                        <h4>ОПИШІТЬ ІДЕЮ (місце, розмір)</h4>
+                        <textarea id="book-idea" placeholder="Наприклад: Змія на передпліччі, 15 см" class="booking-input"></textarea>
+                    </div>
+                    <div class="care-block" style="margin-bottom:12px">
+                        <h4>ДОДАТИ ЕСКІЗ АБО ФОТО МІСЦЯ</h4>
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="book-file" accept="image/*" style="display:none">
+                            <label for="book-file" class="booking-input">
+                                <i class="fas fa-camera"></i>
+                                <span id="file-label">ОБРАТИ ФОТО</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="care-block" style="margin-bottom:18px">
+                        <h4>INSTAGRAM АБО НОМЕР</h4>
+                        <input type="text" id="book-contact" placeholder="@nickname або 099..." class="booking-input">
+                    </div>
+                    <button id="submit-booking" class="btn-course">ВІДПРАВИТИ НА ОЦІНКУ</button>
+                    <div id="booking-status" class="status-msg"></div>
+                </div>
+
+                <!-- Мої записи -->
+                <div id="csub-records" class="cabinet-sub">
+                    <div id="user-bookings-list">
+                        <p style="color:#444;font-size:0.82rem;text-align:center;padding:20px 0">Завантаження...</p>
+                    </div>
+                </div>
+
+                <button onclick="firebase.auth().signOut()" class="btn-course" style="margin-top:20px;border-color:#333;color:#555;">
+                    <i class="fas fa-sign-out-alt"></i> ВИЙТИ
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- IMAGE MODAL -->
     <div id="image-modal" class="modal">
         <span class="close-modal">×</span>
         <img class="modal-content" id="full-image">
     </div>
 
-
-
-<div id="client-cabinet" class="tab-content">
-    <div class="care-guide-v2" style="max-width: 450px; margin: 20px auto; padding: 30px; background: #0a0a0a; border: 1px solid var(--border-color); border-radius: 15px;">
-        
-        <div id="auth-header" style="display: flex; justify-content: space-around; margin-bottom: 25px;">
-            <span id="tab-login" onclick="toggleAuthMode('login')" style="color: var(--neon-pink); cursor: pointer; font-weight: bold; border-bottom: 2px solid var(--neon-pink);">ВХІД</span>
-            <span id="tab-reg" onclick="toggleAuthMode('reg')" style="color: var(--grey-text); cursor: pointer; font-weight: bold;">РЕЄСТРАЦІЯ</span>
-        </div>
-        
-        <div id="login-form">
-            <div id="reg-fields" style="display: none;">
-                <input type="text" id="c-name" placeholder="Ваше ім'я" class="booking-input" style="margin-bottom: 15px;">
-                <input type="text" id="c-contact" placeholder="Instagram або номер" class="booking-input" style="margin-bottom: 15px;">
-            </div>
-            <input type="email" id="c-email" placeholder="Email" class="booking-input" style="margin-bottom: 15px;">
-            <input type="password" id="c-pass" placeholder="Пароль (мін. 6 символів)" class="booking-input" style="margin-bottom: 20px;">
-            
-            <button id="btn-login" onclick="handleLogin()" class="btn-course" style="width: 100%;">УВІЙТИ</button>
-            <button id="btn-reg" onclick="handleRegister()" class="btn-course" style="width: 100%; display: none;">СТВОРИТИ АКАУНТ</button>
-            <p id="auth-error" style="color: #ff0044; font-size: 0.8rem; margin-top: 15px; text-align: center; display: none;"></p>
-        </div>
-
-        <div id="welcome-msg" style="display: none; text-align: left;">
-    <h3 style="color: var(--neon-pink); text-align: center; margin-bottom: 20px;">ОСОБИСТИЙ КАБІНЕТ</h3>
-    
-    <div style="background: #111; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-        <p style="font-size: 0.8rem; color: #888;">Ім'я:</p>
-        <p id="display-name" style="color: #fff; margin-bottom: 10px;">-</p>
-        <p style="font-size: 0.8rem; color: #888;">Контакт:</p>
-        <p id="display-contact" style="color: #fff; margin-bottom: 10px;">-</p>
-        <p style="font-size: 0.8rem; color: #888;">Email:</p>
-        <p id="display-email" style="color: #fff;">-</p>
-    </div>
-
-    <h4 style="color: #fff; font-size: 0.9rem; margin-bottom: 10px; border-left: 3px solid var(--neon-pink); padding-left: 10px;">МОЇ ЗАПИСИ:</h4>
-    <div id="user-bookings-list" style="margin-bottom: 20px;">
-        <p style="color: #444; font-size: 0.8rem;">Завантаження записів...</p>
-    </div>
-    
-    <button onclick="firebase.auth().signOut()" class="btn-course" style="width: 100%; border-color: #444; color: #888;">ВИЙТИ</button>
-</div>
-
-    </div>
-</div>
-
-    <!-- Firebase SDK (Класичний режим для стабільності) -->
-   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script> <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-
-    <!-- Твій скрипт -->
     <script src="script.js"></script>
-
 </body>
 </html>
