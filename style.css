@@ -321,17 +321,126 @@ textarea.booking-input { resize:none; height:90px; line-height:1.5; padding-top:
 
 .status-msg { display:none; padding:14px 16px; border-radius:var(--r-md); border:1px dashed; font-size:0.84rem; line-height:1.7; margin-top:14px; text-align:center; white-space:pre-line; }
 
-/* RESPONSIVE */
-@media(max-width:700px){
-  .main-nav{padding:0 12px;}
-  .main-nav ul li{padding:8px 7px;font-size:0.57rem;letter-spacing:1px;}
-  .logo{font-size:1.4rem;}
-  .reveal-gallery{grid-template-columns:repeat(2,1fr);gap:5px;padding:5px 10px 28px;}
-  .info-posters{grid-template-columns:1fr;padding:0 12px 36px;}
-  .contact-grid{grid-template-columns:1fr;}
-  .btn-phone,.map-button-wrapper{grid-column:1;}
-  .floating-btn{bottom:14px;right:14px;padding:11px 16px;font-size:0.65rem;}
+/* ================================================
+   RESPONSIVE — Mobile First
+   ================================================ */
+
+/* ── Планшет (≤768px) ── */
+@media(max-width:768px){
+  /* Nav */
+  .main-nav{ padding:0 12px; }
+  .main-nav ul li{ padding:8px 7px; font-size:0.57rem; letter-spacing:1px; }
+  .logo{ font-size:1.5rem; }
+
+  /* Hero */
+  .neon-title{ letter-spacing:4px; }
+  .hero{ padding:50px 16px 36px; }
+
+  /* Gallery */
+  .reveal-gallery{ grid-template-columns:repeat(2,1fr); gap:6px; padding:6px 12px 28px; }
+
+  /* Info posters */
+  .info-posters{ grid-template-columns:1fr 1fr; padding:0 12px 36px; gap:10px; }
+
+  /* Contacts */
+  .contact-container{ padding:0 14px 40px; }
+  .contact-grid{ grid-template-columns:1fr 1fr; gap:8px; }
+  .btn-phone{ grid-column:1/-1; }
+  .map-button-wrapper{ grid-column:1/-1; }
+
+  /* Manager card */
+  .manager-card{ padding:13px 14px; gap:12px; }
+  .manager-icon{ width:40px; height:40px; }
+  .manager-title{ font-size:0.68rem; }
+
+  /* Cabinet */
+  .cabinet-wrap{ padding:0 14px 40px; }
+  .cabinet-nav-btn{ font-size:0.6rem; padding:9px 6px; }
+
+  /* Floating btn */
+  .floating-btn{ bottom:14px; right:14px; padding:11px 18px; font-size:0.65rem; }
 }
-@media(max-width:430px){
-  .main-nav ul li:not(:last-child):not(:nth-last-child(2)){display:none;}
+
+/* ── Телефон (≤480px) ── */
+@media(max-width:480px){
+  /* Nav */
+  .main-nav{ padding:0 10px; height:54px; }
+  .logo{ font-size:1.3rem; letter-spacing:3px; }
+  .main-nav ul li{ padding:7px 5px; font-size:0.52rem; letter-spacing:0.5px; }
+
+  /* Tab offset */
+  .tab-content{ padding-top:54px; }
+
+  /* Hero */
+  .hero{ padding:36px 14px 28px; }
+  .neon-title{ letter-spacing:2px; margin-bottom:10px; }
+  .hero > p{ font-size:0.68rem; letter-spacing:2px; }
+  .scroll-indicator{ font-size:0.62rem; }
+
+  /* Section title */
+  .section-title{ padding:32px 16px 22px; letter-spacing:4px; }
+
+  /* Gallery */
+  .reveal-gallery{ grid-template-columns:repeat(2,1fr); gap:4px; padding:4px 8px 24px; }
+
+  /* Info posters */
+  .info-posters{ grid-template-columns:1fr; padding:0 10px 32px; gap:10px; }
+
+  /* Buttons */
+  .btn-more{ padding:12px 24px; font-size:0.7rem; }
+  .btn-contact{ padding:13px 10px; font-size:0.64rem; letter-spacing:1px; }
+
+  /* Contacts */
+  .contact-container{ padding:0 12px 36px; max-width:100%; }
+  .contact-grid{ grid-template-columns:1fr 1fr; gap:8px; }
+  .btn-phone{ grid-column:1/-1; }
+  .map-button-wrapper{ grid-column:1/-1; }
+
+  /* Manager / Studio card */
+  .manager-card{ padding:12px 13px; gap:11px; border-radius:8px; }
+  .manager-icon{ width:38px; height:38px; flex-shrink:0; }
+  .manager-icon i{ font-size:1rem; }
+  .manager-title{ font-size:0.65rem; letter-spacing:1px; }
+  .manager-desc{ font-size:0.56rem; letter-spacing:0.5px; }
+
+  /* Contact section label */
+  .contact-section-label{ font-size:0.55rem; letter-spacing:2px; margin:18px 0 8px; }
+
+  /* Form / Booking */
+  .care-guide-v2{ padding:0 12px 40px; }
+  .care-block{ padding:13px 14px; }
+  .booking-input{ font-size:0.82rem; padding:10px 12px; }
+  textarea.booking-input{ height:80px; }
+
+  /* Cabinet */
+  .cabinet-wrap{ padding:0 12px 36px; }
+  .cabinet-box{ padding:18px 14px; border-radius:var(--r-md); }
+  .cabinet-nav{ gap:5px; }
+  .cabinet-nav-btn{ font-size:0.58rem; padding:9px 4px; letter-spacing:1px; }
+  .profile-row span:first-child{ font-size:0.64rem; }
+  .profile-row span:last-child{ font-size:0.78rem; }
+
+  /* Booking cards */
+  .booking-card{ padding:11px 13px; }
+  .booking-card-date{ font-size:0.8rem; }
+  .booking-card-idea{ font-size:0.72rem; }
+
+  /* Modal */
+  .close-modal{ top:12px; right:14px; font-size:2rem; }
+  .modal-content{ max-width:96vw; max-height:82vh; }
+
+  /* Floating btn */
+  .floating-btn{ bottom:12px; right:12px; padding:10px 14px; font-size:0.6rem; gap:6px; }
+}
+
+/* ── Дуже маленький екран (≤360px) ── */
+@media(max-width:360px){
+  .main-nav ul li{ font-size:0.48rem; padding:6px 4px; }
+  .logo{ font-size:1.15rem; }
+  .contact-grid{ grid-template-columns:1fr; }
+  .btn-studio-ig,.btn-studio-tt,.btn-studio-fb,
+  .btn-manager-phone,.btn-manager-tg{ grid-column:1/-1; }
+  .btn-contact{ padding:12px 10px; }
+  .manager-card{ flex-direction:column; text-align:center; align-items:center; }
+  .manager-info{ align-items:center; }
 }
