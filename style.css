@@ -4,6 +4,13 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
+/* Force Google Fonts on all devices including iOS Safari */
+@supports (-webkit-touch-callout: none) {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
 :root {
   --neon-pink:    #ff00ff;
   --neon-glow:    rgba(255,0,255,0.55);
@@ -15,8 +22,8 @@
   --white:        #f0f0f0;
   --grey:         #888;
   --grey-muted:   #444;
-  --font-title:   'Bebas Neue', cursive;
-  --font-body:    'Montserrat', sans-serif;
+  --font-title:   'Bebas Neue', 'BebasNeue', Arial Narrow, Arial, sans-serif;
+  --font-body:    'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --r-sm: 8px; --r-md: 14px; --r-lg: 22px;
   --ease: 0.25s cubic-bezier(.4,0,.2,1);
 }
